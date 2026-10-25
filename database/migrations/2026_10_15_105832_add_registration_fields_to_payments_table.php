@@ -9,15 +9,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->string('full_name')->after('user_id');
-            $table->string('phone')->after('full_name');
+            if (!Schema::hasColumn('payments', 'full_name')) {
+                $table->string('full_name')->after('user_id');
+            }
+            if (!Schema::hasColumn('payments', 'phone')) {
+                $table->string('phone')->after('full_name');
+            }
         });
     }
 
     public function down(): void
     {
         Schema::table('payments', function (Blueprint $table) {
-            $table->dropColumn(['full_name', 'phone']);
+            if (Schema::hasColumn('payments', 'full_name')) $table->dropColumn('full_name');
+            if (Schema::hasColumn('payments', 'phone')) $table->dropColumn('phone');
         });
     }
 };

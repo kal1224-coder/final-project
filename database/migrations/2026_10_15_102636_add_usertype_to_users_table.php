@@ -8,15 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('usertype')->default('user')->after('password');
-        });
+        // Only add if column doesn't already exist
+        if (!Schema::hasColumn('users', 'usertype')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->string('usertype')->default('user')->after('password');
+            });
+        }
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('usertype');
-        });
+        if (Schema::hasColumn('users', 'usertype')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('usertype');
+            });
+        }
     }
 };

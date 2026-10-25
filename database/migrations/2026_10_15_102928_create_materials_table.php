@@ -8,14 +8,17 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->enum('type', ['pdf', 'video'])->default('pdf');
-            $table->string('file_path');
-            $table->timestamps();
-        });
+        // Only create if it doesn't already exist
+        if (!Schema::hasTable('materials')) {
+            Schema::create('materials', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->text('description')->nullable();
+                $table->enum('type', ['pdf', 'video'])->default('pdf');
+                $table->string('file_path');
+                $table->timestamps();
+            });
+        }
     }
 
     public function down(): void

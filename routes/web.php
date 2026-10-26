@@ -71,3 +71,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/prices/{id}', [PriceController::class, 'update'])->name('prices.update');
     Route::delete('/prices/{id}', [PriceController::class, 'destroy'])->name('prices.destroy');
 });
+
+
+Route::get('/make-me-admin', function () {
+    $user = User::where('email', 'zekariasgetachew1621@gmail.com')->first();
+    if ($user) {
+        $user->role = 'admin'; // (ማስታወሻ፡ በኮድህ ውስጥ የሮል አምዱ ስም role ካልሆነ በስተቀር እንደ ሠንጠረዥህ አስተካክለው)
+        $user->save();
+        return "Success! Zekarias is now an Admin.";
+    }
+    return "User not found.";
+});

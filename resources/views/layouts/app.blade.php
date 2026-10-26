@@ -14,86 +14,72 @@
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen justify-between text-gray-800">
 
-   <nav class="relative bg-[#1d3557] text-white py-4 px-6 shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center">
-        
-        <!-- CSS-based YG Logo Badge (Top-Left Floating) -->
-        <a href="{{ url('/') }}" class="absolute top-0 left-6 sm:left-12 bg-flex px-5 py-2.5 rounded-b-2xl shadow-lg flex items-center gap-3 border-t-0 hover:shadow-xl transition-all duration-200 z-50">
-            <!-- YG Symbol -->
-            <div class="flex items-center font-extrabold text-6xl leading-none tracking-tight">
+   <nav class="bg-[#1d3557] text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+
+        <!-- Logo -->
+        <a href="{{ url('/') }}" class="flex items-center gap-2 flex-shrink-0">
+            <div class="flex items-center font-extrabold text-4xl leading-none tracking-tight">
                 <span class="text-[#00529B]">Y</span>
                 <span class="bg-gradient-to-b from-[#F39C12] to-[#D35400] bg-clip-text text-transparent">G</span>
             </div>
-            
-            <!-- Text Content -->
-            <div class="flex flex-col text-left font-sans leading-tight">
-                <span class="text-white text-sm font-semibold tracking-wide">Training and</span>
-                <span class="text-white text-sm font-medium tracking-wide">Consultancy</span>
+            <div class="flex flex-col leading-tight hidden sm:block">
+                <span class="text-white text-xs font-semibold">Training and</span>
+                <span class="text-white text-xs font-medium">Consultancy</span>
             </div>
         </a>
 
-        <!-- Right Side Nav Links (መነሻ፣ ግቡ፣ ተመዝገብ) -->
-       <div class="ml-auto flex items-center space-x-6 text-sm font-medium">
-    <!-- Home (ሁልጊዜም የሚታይ) -->
-    <a href="{{ url('/') }}" class="hover:text-gray-200 transition">Home</a>
+        <!-- Right Side -->
+        <div class="flex items-center gap-2 text-sm font-medium ml-auto">
+            <a href="{{ url('/') }}" class="hover:text-gray-200 transition px-2">Home</a>
 
-    @guest
-        <!-- Login ያላደረገ ተጠቃሚ (Guest) ብቻ የሚያያቸው -->
-        <a href="{{ route('login') }}" class="hover:text-gray-200 transition">Login</a>
-        <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold transition shadow-sm">
-            register
-        </a>
-    @endguest
+            @guest
+                <a href="{{ route('login') }}" class="hover:text-gray-200 transition px-2">Login</a>
+                <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg font-semibold transition text-xs sm:text-sm">
+                    Register
+                </a>
+            @endguest
 
-   @auth
-    <!-- Profile Dropdown Wrapper (Alpine.js ተጠቅሞ Dropdown ይከፍታል/ይዘጋል) -->
-    <div x-data="{ open: false }" class="relative ml-auto">
-        
-        <!-- Profile Button (ሲጫኑት Menuው ይከፈታል) -->
-        <button @click="open = !open" @click.away="open = false" 
-            class="flex items-center gap-2 bg-blue-900/80 hover:bg-blue-900 text-white px-4 py-2 rounded-lg border border-blue-400/30 transition focus:outline-none">
-            @if(Auth::user()->profile_picture)
-                <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
-                     class="w-7 h-7 rounded-full object-cover border-2 border-blue-300">
-            @else
-                <span>👤</span>
-            @endif
-            {{ Auth::user()->name }}
-            <svg class="w-4 h-4 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-            </svg>
-        </button>
-
-        <!-- Click ሲደረግ ከስር የሚመጣው Dropdown Menu -->
-        <div x-show="open" 
-             x-transition:enter="transition ease-out duration-100"
-             x-transition:enter-start="transform opacity-0 scale-95"
-             x-transition:enter-end="transform opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-75"
-             x-transition:leave-start="transform opacity-100 scale-100"
-             x-transition:leave-end="transform opacity-0 scale-95"
-             class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 text-gray-800"
-             style="display: none;">
-
-            <!-- 1. Profile Update Option -->
-            <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-gray-100 text-gray-700 transition">
-                <span>✏️</span> Edit Profile
-            </a>
-
-            <div class="border-t border-gray-100 my-1"></div>
-
-            <!-- 2. Logout Option -->
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition font-medium">
-                    <span>🚪</span> Logout
+            @auth
+            <div x-data="{ open: false }" class="relative">
+                <button @click="open = !open" @click.away="open = false"
+                    class="flex items-center gap-1.5 bg-blue-900/80 hover:bg-blue-900 text-white px-3 py-1.5 rounded-lg border border-blue-400/30 transition focus:outline-none text-xs sm:text-sm max-w-[160px]">
+                    @if(Auth::user()->profile_picture)
+                        <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}"
+                             class="w-6 h-6 rounded-full object-cover border border-blue-300 flex-shrink-0">
+                    @else
+                        <span class="flex-shrink-0">👤</span>
+                    @endif
+                    <span class="truncate">{{ Auth::user()->name }}</span>
+                    <svg class="w-3 h-3 flex-shrink-0 transition-transform duration-200" :class="{'rotate-180': open}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                 </button>
-            </form>
 
+                <div x-show="open"
+                     x-transition:enter="transition ease-out duration-100"
+                     x-transition:enter-start="transform opacity-0 scale-95"
+                     x-transition:enter-end="transform opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-75"
+                     x-transition:leave-start="transform opacity-100 scale-100"
+                     x-transition:leave-end="transform opacity-0 scale-95"
+                     class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-100 py-1 z-50 text-gray-800"
+                     style="display: none;">
+                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-gray-100 text-gray-700 transition">
+                        <span>✏️</span> Edit Profile
+                    </a>
+                    <div class="border-t border-gray-100 my-1"></div>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition font-medium">
+                            <span>🚪</span> Logout
+                        </button>
+                    </form>
+                </div>
+            </div>
+            @endauth
         </div>
     </div>
-@endauth
-</div>
 </nav>
 
     <!-- Main Content Area -->

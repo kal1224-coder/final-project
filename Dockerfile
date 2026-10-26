@@ -20,6 +20,9 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions
 RUN chmod -R 775 storage bootstrap/cache
 
+# Ensure SQLite database file exists
+RUN touch /var/www/database/database.sqlite && chmod 775 /var/www/database/database.sqlite
+
 # Expose port
 EXPOSE 10000
 

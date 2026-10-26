@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Announcement;
-use App\Models\Setting;
+use App\Models\Price;
 use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
@@ -13,8 +13,11 @@ class PaymentController extends Controller
     {
         $announcements = Announcement::latest()->get();
         $payment       = Auth::user()->payments()->latest()->first();
-        $trainingPrice = Setting::get('training_price', '500');
-        return view('trainee.dashboard', compact('announcements', 'payment', 'trainingPrice'));
+        // Get the first active price from the prices table
+        $activePrice   = Price::where('is_active', true)->latest()->first();
+        $trainingPrice = $activePrice ? $activePrice->amount : 500;
+        $pricingLabel  = $activePrice ? $activePrice->label : 'Training Fee';
+        return view('trainee.dashboard', compact('announcements', 'payment', 'trainingPrice', 'pricingLabel'));
     }
 
     public function store(Request $request)

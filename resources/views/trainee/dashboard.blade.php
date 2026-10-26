@@ -127,7 +127,7 @@
             {{-- Training Price --}}
             <div class="mb-4 bg-gradient-to-r from-[#1a1a2e] via-[#16213e] to-[#0f3460] text-white rounded-xl p-4 flex items-center justify-between shadow-lg border border-white/10">
                 <div>
-                    <p class="text-xs text-slate-300 font-medium uppercase tracking-widest">Training Fee</p>
+                    <p class="text-xs text-slate-300 font-medium uppercase tracking-widest">{{ $pricingLabel }}</p>
                     <p class="text-2xl font-extrabold mt-0.5 text-amber-400">ETB {{ number_format($trainingPrice) }}</p>
                 </div>
                 <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">

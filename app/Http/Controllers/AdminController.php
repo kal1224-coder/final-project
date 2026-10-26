@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\Material;
 use App\Models\Announcement;
-use App\Models\Setting;
+use App\Models\Price;
 use App\Models\User;
 
 class AdminController extends Controller
@@ -17,7 +17,7 @@ class AdminController extends Controller
             'pendingCount'   => Payment::where('status', 'pending')->count(),
             'approvedCount'  => Payment::where('status', 'approved')->count(),
             'materialsCount' => Material::count(),
-            'trainingPrice'  => Setting::get('training_price', '500'),
+            'trainingPrice'  => Price::where('is_active', true)->latest()->value('amount') ?? 500,
             'recentTrainees' => User::where('usertype', 'user')
                                     ->with('payments')
                                     ->latest()
